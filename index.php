@@ -1,3 +1,18 @@
+<?php 
+// Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable et on doit arrêter la page de charger si il n'est pas trouvé
+require('bdd.inc.php');
+
+// On récupère le titre et le content de tous les articles dans la base de données via la méthode query.
+$getAllArticles = $bdd->query("SELECT title, content FROM articles ORDER BY DoP");
+
+// On exploite les données encore "brutes" dans $getAllArticles et on les transforme en un tableau associatif dans $articleList
+$articleList = $getAllArticles->fetchAll(PDO::FETCH_ASSOC);
+
+// on ferme la requête
+$getAllArticles->closeCursor();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,24 +47,43 @@
 
         <div class="container-fluid">
 
-            <h1 style="text-align: center; padding: 20px; font-size: 70px;">WebZine</h1>
+            <h1 style="text-align: center; padding: 20px; font-size: 100px;">WebZine</h1>
 
         </div>
 
 
         <div class="jumbotron">
-            <h2>Article</h2>
-            <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-            <p>
-                <a class="btn btn-lg btn-primary" href="articledetail.php" role="button">View more</a>
-            </p>
-        </div>
 
+            <?php 
+            // Si $articleList n'est pas vide, on affiche les articles avec : nom de l'article et contenu de l'article
+
+            
+
+            if(!empty($articleList)){
+
+                foreach ($articleList as $article) {
+                    echo '<h1>'.htmlspecialchars($article['title']).'<h1>';
+
+                    echo '<p>'.htmlspecialchars($article['content']).'<p>';
+                }
+
+
+            } else {
+        // $articleList est vide, on affiche donc un message d'erreur à la place du tableau
+                echo '<p style="color:red;">Il n\'y a pas d\'article dans la base de données!</p>';
+            }
+
+            ?>
+
+            <a class="btn btn-lg btn-primary" href="articledetail.php" role="button">View more</a>
+        </p>
     </div>
 
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="scripts/script.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="scripts/script.js"></script>
 </body>
 </html>
