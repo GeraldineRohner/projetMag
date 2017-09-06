@@ -1,5 +1,15 @@
 <?php 
 
+$themes = array
+(
+    '0' => 'Economie',
+    '1' => 'Philosophie',
+    '2' => 'Histoire',
+    '3' => 'People',
+    '4' => 'Géographie',
+    '5' => 'Politique'
+    );
+
 if (isset($_GET['id']) AND preg_match('#^[1-9][0-9]{0,7}$#',$_GET['id'])) // ||||||||||||||| PENSER À  VERIFIER QUE ID > 0 ET INTEGER. |||||||||||||
 {
 
@@ -10,7 +20,7 @@ if (isset($_GET['id']) AND preg_match('#^[1-9][0-9]{0,7}$#',$_GET['id'])) // |||
 
 
     $articleDetails = $getSelectedArticle->fetchAll(PDO::FETCH_ASSOC); // création du tableau
-   
+
 
 
     if ($getSelectedArticle->rowCount()==0) // Si la requête ne renvoie aucun résultat...
@@ -42,7 +52,7 @@ else $kickOut = "Vous n'avez pas accès à ce contenu."; // Si l'utilisateur est
 
 
 
-    <?php 
+        <?php 
     if (!isset ($kickOut)) // Si la variable invitant l'utilisateur à partir car arrivé par erreur est vide, c'est que l'utilisateur a bien cliqué sur un lien "plus d'infos" (ou alors a entré à la main l'id d'un film)...
 
 
@@ -54,7 +64,7 @@ else $kickOut = "Vous n'avez pas accès à ce contenu."; // Si l'utilisateur est
 
          foreach($articleDetails as $article) // Affichage du tableau détaillant tout le film
          {
-            echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td>'.htmlspecialchars($article['subject']).'</td></tr>';
+            echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td>'.htmlspecialchars($themes[$article['subject']]).'</td></tr>';
         }
         echo '</table>';
         echo '<p>'.$article['content'].'</p>';
@@ -71,8 +81,8 @@ else echo '<h1 style="color:red; text-align:center;">'.$kickOut.'</h1>'; // ...S
 
 
 
-    	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    	<script src="scripts/script.js"></script>
-    </body>
-    </html>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="scripts/script.js"></script>
+</body>
+</html>
