@@ -1,7 +1,7 @@
-<?php 
+<?php require('session.php');
 
 $themes = array
-('Economie','Philosophie','Histoire','People','Géographie','Politique');
+('Economie','Philosophie','Histoire','People','Géographie','Politique'); // Tableau de correspondance N° de sujets / sujets.
 
 
 if (isset($_GET['id']) AND preg_match('#^[1-9][0-9]{0,7}$#',$_GET['id'])) // ||||||||||||||| PENSER À  VERIFIER QUE ID > 0 ET INTEGER. |||||||||||||
@@ -34,9 +34,9 @@ else $kickOut = "Vous n'avez pas accès à ce contenu."; // Si l'utilisateur est
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<link rel="stylesheet" href="style/style.css">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -53,8 +53,8 @@ else $kickOut = "Vous n'avez pas accès à ce contenu."; // Si l'utilisateur est
     {
 
 
-       echo '<table class="movietable">';
-       echo '<tr><th>Titre</th><th>Auteur</th><th>Date de publication</th><th>Thème</th></tr>';
+     echo '<table class="movietable">';
+     echo '<tr><th>Titre</th><th>Auteur</th><th>Date de publication</th><th>Thème</th></tr>';
 
          foreach($articleDetails as $article) // Affichage du tableau détaillant tout le film
          {

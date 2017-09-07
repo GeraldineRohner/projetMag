@@ -1,26 +1,30 @@
 <?php 
 // ----------------------------------------CONTRÔLEUR ---------------------------------------
 // Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable au bon fonctionnement du programme.
-require('session.php');
-require('bdd.inc.php');
+require('../include/session.php');
+$_SESSION['status'] = 1;
+if ($_SESSION['status'] == 1)
+{
+    require('../include/bdd.inc.php');
 
 // On récupère le titre, le réalisateur, et l'année de sortie. On prend aussi l'id pour plus tard, on sait jamais :o) Ici on fait un query car nulle variable n'est passée en paramètre, pas de risque d'injection SQL.
-$getAllArticles = $bdd->query("SELECT * FROM articles ORDER BY DoP");
+    $getAllArticles = $bdd->query("SELECT * FROM articles ORDER BY DoP");
 
 // Conversion en tableau associatif
-$articleList = $getAllArticles->fetchAll(PDO::FETCH_ASSOC);
+    $articleList = $getAllArticles->fetchAll(PDO::FETCH_ASSOC);
 
 // on ferme la requête
-$getAllArticles->closeCursor();
+    $getAllArticles->closeCursor();
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<link rel="stylesheet" href="style/style.css">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -29,20 +33,20 @@ $getAllArticles->closeCursor();
     <body>
 
 
-<?php
-    
-    
+        <?php
+
+
     // Si $articleList n'est pas vide, on affiche un tableau HTML avec tous les films qu'il contient
-    if(!empty($articleList))
-    {
+        if(!empty($articleList) && $_SESSION['status'] == 1)
+        {
 
 
-        echo '<table class="movietable">';
-        echo '<tr><th>Titre</th><th>Auteur</th><th>Date de publication</th><th>Lire</th></tr>';
-        
-        foreach($articleList as $article){
-            echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td><a href="articledetail.php?id='.htmlspecialchars($article['id']).'">Cliquez ici</a></td></tr>';
-        }
+            echo '<table class="movietable">';
+            echo '<tr><th>Titre</th><th>Auteur</th><th>Date de publication</th><th>Edit</th></tr>';
+
+            foreach($articleList as $article){
+                echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td><a href="edit.article.php?id='.htmlspecialchars($article['id']).'">Cliquez ici</a></td><td><a href="supression.article.php?id='.htmlspecialchars($article['id']).'">Supprimer</a></td></tr>';
+            }
         echo '</table>'; // Petit détail important : L'id était ici indispensable car nous en avons besoin pour afficher les détails de chaque film dans une autre page (en le passant dans la superglobale $_GET. Ouf, on a bien fait de le prendre dans la requête !)
         
         
@@ -55,8 +59,8 @@ $getAllArticles->closeCursor();
 
 
 
-    	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    	<script src="scripts/script.js"></script>
-    </body>
-    </html>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
