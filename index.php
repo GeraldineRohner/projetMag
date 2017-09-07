@@ -17,7 +17,7 @@ $getAllArticles->closeCursor();
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title> Home - Webzine </title>
 	<link rel="stylesheet" href="style/style.css">
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>

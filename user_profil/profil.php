@@ -2,6 +2,7 @@
 
 	// Connexion à la BDD (via un try & catch) :
 	require("../include/bdd.inc.php");
+	require("../include/session.php");
 
 	
 	$getOneProfil=$bdd->prepare("SELECT * FROM users_info WHERE id=:id");
@@ -23,7 +24,7 @@
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
-	<title>Page profil </title>
+	<title> Profil - Webzine </title>
 	<link rel="stylesheet" href="style/style.css">
 	<!--[if lt IE 9]>
 	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -36,6 +37,8 @@
     </head>
     <body>
     
+	<?php include('../include/navBo.php'); ?>
+    
     <h1>Mon profil </h1>
     
     
@@ -47,31 +50,31 @@
 			
 				<tr>
 					<td> Nom :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->LastName; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['LastName']);?> </td>
 				</tr>
 				<tr>
 					<td> Prénom :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->FirstName; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['FirstName']);?> </td>
 				</tr>
 				<tr>
 					<td> Pseudo :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->UserName; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['UserName']);?> </td>
 				</tr>
 				<tr>
 					<td> Date de naissance : </td>
-					<td> <?php echo htmlspecialchars($userInfo)->DoB; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['DoB']);?> </td>
 				</tr>
 				<tr>
 					<td> Adresse email : </td>
-					<td> <?php echo htmlspecialchars($userInfo)->Email; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['Email']);?> </td>
 				</tr>
 				<tr>
 					<td> Numéro de téléphone :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->TelephoneNb; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['TelephoneNb']);?> </td>
 				</tr>
 				<tr>
 					<td> Thème de prédilection : </td>
-					<td> <?php echo htmlspecialchars($userInfo)->Favs; ?> </td>
+					<td> <?php echo htmlspecialchars($userInfo['Favs']);?> </td>
 				</tr>
 								
 			</tbody>
