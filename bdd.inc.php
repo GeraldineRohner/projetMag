@@ -3,7 +3,7 @@
 
 try{
 	// Initialisation connexion à la BDD
-	$bdd = new PDO('mysql:host=localhost;dbname=projetmag;charset=utf8','root','');
+	$bdd = new PDO('mysql:host=localhost;dbname=projetmag;charset=utf8','root','root');
 
 } catch (Exception $e){
 	// "die" permet d'arrêter le chargement de la page
