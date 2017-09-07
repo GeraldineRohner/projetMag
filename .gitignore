@@ -1,3 +1,2 @@
-bdd.inc.php
-projetmag.sql
-brouillon.php
+include/bdd.inc.php
+include/projetmag.sql
