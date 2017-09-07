@@ -1,5 +1,7 @@
-<?php // ----------------------------------------CONTRÔLEUR ---------------------------------------
+<?php 
+// ----------------------------------------CONTRÔLEUR ---------------------------------------
 // Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable au bon fonctionnement du programme.
+require('session.php');
 require('bdd.inc.php');
 
 // On récupère le titre, le réalisateur, et l'année de sortie. On prend aussi l'id pour plus tard, on sait jamais :o) Ici on fait un query car nulle variable n'est passée en paramètre, pas de risque d'injection SQL.

@@ -2,6 +2,10 @@
 
 	// Connexion à la BDD (via un try & catch) :
 	require("../include/bdd.inc.php");
+	require("../include/session.php");
+
+$themes = array
+('Economie','Philosophie','Histoire','People','Géographie','Politique'); // Tableau de correspondance N° de sujets / sujets.
 
 	
 	$getOneProfil=$bdd->prepare("SELECT * FROM users_info WHERE id=:id");
@@ -10,9 +14,9 @@
 		
 	$userInfo = $getOneProfil->fetch(PDO::FETCH_ASSOC);
 
-	echo "<pre>";
+/*	echo "<pre>";
 	print_r ($userInfo);
-	echo "</pre>";
+	echo "</pre>";*/
 	
 	$getOneProfil->closeCursor();
 
@@ -23,7 +27,7 @@
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
-	<title>Page profil </title>
+	<title> Profil - Webzine </title>
 	<link rel="stylesheet" href="style/style.css">
 	<!--[if lt IE 9]>
 	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -36,51 +40,57 @@
     </head>
     <body>
     
-    <h1>Mon profil </h1>
+    <div class="container">
+	<?php include('../include/navBo.php'); ?>
     
-    
-	<div id="tableau" class="col-sm-6">
+    	<div class="container-fluid">
+			<h1>Mon profil </h1>
 
-		<table id="myTable" class="table table-striped table-hover table-responsive">
 
-			<tbody>
-			
-				<tr>
-					<td> Nom :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->LastName; ?> </td>
-				</tr>
-				<tr>
-					<td> Prénom :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->FirstName; ?> </td>
-				</tr>
-				<tr>
-					<td> Pseudo :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->UserName; ?> </td>
-				</tr>
-				<tr>
-					<td> Date de naissance : </td>
-					<td> <?php echo htmlspecialchars($userInfo)->DoB; ?> </td>
-				</tr>
-				<tr>
-					<td> Adresse email : </td>
-					<td> <?php echo htmlspecialchars($userInfo)->Email; ?> </td>
-				</tr>
-				<tr>
-					<td> Numéro de téléphone :  </td>
-					<td> <?php echo htmlspecialchars($userInfo)->TelephoneNb; ?> </td>
-				</tr>
-				<tr>
-					<td> Thème de prédilection : </td>
-					<td> <?php echo htmlspecialchars($userInfo)->Favs; ?> </td>
-				</tr>
-								
-			</tbody>
-			
-		</table>
-		
-		<br>
-		
-			<a href='editProfil.php?id='.htmlspecialchars($userInfo["id"]).''><button type="submit" class="btn btn-warning"> Modifier mon profil </button></a>
+			<div id="tableau" class="col-sm-6">
+
+				<table id="myTable" class="table table-striped table-hover table-responsive">
+
+					<tbody>
+
+						<tr>
+							<td> Nom :  </td>
+							<td> <?php echo htmlspecialchars($userInfo['LastName']);?> </td>
+						</tr>
+						<tr>
+							<td> Prénom :  </td>
+							<td> <?php echo htmlspecialchars($userInfo['FirstName']);?> </td>
+						</tr>
+						<tr>
+							<td> Pseudo :  </td>
+							<td> <?php echo htmlspecialchars($userInfo['UserName']);?> </td>
+						</tr>
+						<tr>
+							<td> Date de naissance : </td>
+							<td> <?php echo htmlspecialchars($userInfo['DoB']);?> </td>
+						</tr>
+						<tr>
+							<td> Adresse email : </td>
+							<td> <?php echo htmlspecialchars($userInfo['Email']);?> </td>
+						</tr>
+						<tr>
+							<td> Numéro de téléphone :  </td>
+							<td> <?php echo htmlspecialchars($userInfo['TelephoneNb']);?> </td>
+						</tr>
+						<tr>
+							<td> Thème de prédilection : </td>
+							<td> <?php echo htmlspecialchars($themes[$userInfo['Favs']]);?> </td>
+						</tr>
+
+					</tbody>
+
+				</table>
+
+				<br>
+
+					<a href='editProfil.php?id=<?php echo htmlspecialchars($userInfo["id"]);?>'><button type="submit" class="btn btn-warning"> Modifier mon profil </button></a>
+			</div>
+		</div>
 	</div>
 
 
