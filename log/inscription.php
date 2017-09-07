@@ -1,9 +1,11 @@
-<?php  
-require('../include/bdd.inc.php');
+<?php 
+ 
+ // inclusion du fichier pour la connection à la base de donnée
+ require ('../include/bdd.inc.php');
 
 if(!empty($_POST)){
     
-                                            // LAST NAME
+                                              // LAST NAME
     
     // Vérification que le champ LastName existe et n'est pas vide
     if(isset($_POST['LastName']) AND !empty($_POST['LastName'])){
@@ -19,7 +21,8 @@ if(!empty($_POST)){
         $errors[] = "Veuillez remplir le champ Nom!";
     }
     
-                                            // FIRST NAME
+
+                                              // FIRST NAME
     
     // Vérification que le champ FirstName existe et n'est pas vide
     if(isset($_POST['FirstName']) AND !empty($_POST['FirstName'])){
@@ -34,10 +37,10 @@ if(!empty($_POST)){
         $errors[] = "Veuillez remplir le champ prenom!";
     }
 
-                                            // USER NAME
+                                              // USER NAME
     
     // Vérification que le champ UserName existe et n'est pas vide
-    if(isset($_POST['FirstName']) AND !empty($_POST['FirstName'])){
+    if(isset($_POST['UserName']) AND !empty($_POST['UserName'])){
         
         // Vérification que le champ UserName soit conforme à la regex
         if(!preg_match('#^[a-z \-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,50}$#i', $_POST['UserName'])){
@@ -49,84 +52,103 @@ if(!empty($_POST)){
         $errors[] = "Veuillez remplir le champ pseudo!";
     }
 
-                                          // Date of Birth
+                                            // Date of Birth
     
     // Vérification que le champ Date of Birth existe et n'est pas vide
-    if(isset($_POST['DateofBirth']) AND !empty($_POST['DateofBirth'])){
+    if(isset($_POST['Dob']) AND !empty($_POST['Dob'])){
         
         // Vérification que le champ Date of Birth soit conforme à la regex
-        if(!preg_match('#^([0-9]{2})/([0-9]{2})/([0-9]{4})$#', $_POST['DateofBirth'])){
+        if(!preg_match('#^([0-9]{2})/([0-9]{2})/([0-9]{4})$#', $_POST['Dob'])){
+            
             // Si le champ n'est pas conforme, on créee une erreur dans l'array $errors
             $errors[] = " Annee de naissance invalide";
         }
     } else {
         // Si le champ n'existe pas ou est vide, on créee une erreur dans l'array $errors
-        $errors[] = "Veuillez remplir le Date of Birth!";
+        $errors[] = "Veuillez remplir le champ Date of Birth!";
     }
 
-                                          // Telephone Number
-    
-    // Vérification que le champ Telephone Number existe et n'est pas vide
-    if(isset($_POST['TelephoneNumber']) AND !empty($_POST['TelephoneNumber'])){
-        
-        // Vérification que le champ Date of Birth soit conforme à la regex
-        if(!preg_match('#^([0-9]{2})/([0-9]{2})/([0-9]{4})$#', $_POST['TelephoneNumber'])){
-            // Si le champ n'est pas conforme, on créee une erreur dans l'array $errors
-            $errors[] = " Numero invalide";
-        }
-    } else {
-        // Si le champ n'existe pas ou est vide, on créee une erreur dans l'array $errors
-        $errors[] = "Veuillez remplir le numero!";
-    }
-
-                                                // Email
+                                              // Email
     
     // Vérification que le champ Email existe et n'est pas vide
-    if (isset($_POST['email']) && !empty($_POST['email'])){
+    if (isset($_POST['Email']) && !empty($_POST['Email'])){
 
       //verification de la synthaxe de l'email
-        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){ 
-          $errors['invalidEmail']= true;
+      if(!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)){ 
+          $errors[]= 'Mail Invalide';
         }
 
       }else {
-        $errors['emptyEmail']=true;
+        $errors[]='Champ Mail vide';
       }
     
                                               // Password
  
     // Vérification que le champ password existe et n'est pas vide
-    if(isset($_POST['password']) AND !empty($_POST['password'])){
+    if(isset($_POST['Password']) AND !empty($_POST['Password'])){
           
-          // Vérification que le champ password soit conforme à la regex
-          if(!preg_match('#^[a-z\-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,50}$#i', $_POST['password'])){
-          $errors['emptyPassword']=true;
+        // Vérification que le champ password soit conforme à la regex
+        if(!preg_match('#^[a-z\-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,50}$#i', $_POST['Password'])){
+          
+          $errors[]= 'Mot de passe invalid';
         }
 
+    }else {
+      $errors[]='Champ Mot de Passe vide';
+
+    }
+
+                                           // Telephone Number
+    
+    // Vérification que le champ Telephone Number existe et n'est pas vide
+    if(isset($_POST['TelephoneNb']) AND !empty($_POST['TelephoneNb'])){
+        
+      // Vérification que le champ Date of Birth soit conforme à la regex
+      if(!preg_match('#^(\d{2}[\s\-\.]){4}\d{2}|\d{10}$#', $_POST['TelephoneNb'])){
+            // Si le champ n'est pas conforme, on créee une erreur dans l'array $errors
+            $errors[] = " Numero invalide";
+        }
       }else {
-        $errors['invalidPassword']=true;
+        // Si le champ n'existe pas ou est vide, on créee une erreur dans l'array $errors
+        $errors[] = "Veuillez remplir le numero!";
       }
 
                                               // Theme Favori
-  
 
-    // Vérification que le champ password existe et n'est pas vide
-      if (isset($_POST['Favs'])  && !empty($_POST['Favs']))
-      {       
+    // Vérification que le champ Favs existe et n'est pas vide
+    if (isset($_POST['Favs'])  && !empty($_POST['Favs'])){       
         $strFavs=$_POST['Favs'];
         $tFavs=array('Philosophie', 'Histoire', 'People', 'Geographie', 'Politique', 'Economie');
         if(!in_array($strFavs, $tFavs)) {
           $tErreurs[]="Merci de choisir une catégorie";
         }
-      }
-      else
-      {
+      }else {
         $tErreurs[]="Veuillez choisir une catégorie";
       }
     
     // Si l'array $errors n'existe pas, alors c'est que tous les champs sont valides, donc on créer une variable de succès
     if(!isset($errors)){ 
-    }
+          $success= "Vous etes inscrit!";
+    }   
+    
+
+    //preparation lancement et protecion de la requete
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+    $requete = $bdd->prepare('INSERT INTO users_info (LastName, FirstName, UserName, DoB, Email, Password, TelephoneNb, Favs) VALUES (:LastName, :FirstName, :UserName, :Dob, :Email, :Password, :TelephoneNb, :Favs)');
+      $requete->bindValue(":LastName", $_POST['LastName']);
+      $requete->bindValue(":FirstName", $_POST['FirstName']);
+      $requete->bindValue(":UserName", $_POST['UserName']);
+      $requete->bindValue(":Dob", $_POST['Dob']); 
+      $requete->bindValue(":Email", $_POST['Email']);
+      $requete->bindValue(":Password", $_POST['Password']);
+      $requete->bindValue(":TelephoneNb", $_POST['TelephoneNb']);
+      $requete->bindValue(":Favs", $_POST['Favs']);
+      $requete->execute();
+
+}
+ 
 
 ?>
 
@@ -143,10 +165,10 @@ if(!empty($_POST)){
   
     <body>
 
-     <p>INSCRIPTION</p> 
-
+     <p>INSCRIPTION</p>
+       
         <div class="container">
-          <form action="inscription.php" method="POST" class="col-xs-6-offset-3 ">
+          <form action="inscription.php" method="POST" class="col-xs-6-offset-3 "> 
             
             <div class="form-group row">
               <label for="inputLastName" class="col-sm-2 col-form-label">LastName</label>        
@@ -165,27 +187,27 @@ if(!empty($_POST)){
             
             <div class="form-group row">
               <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>           
-                <input type="DateofBirth" name="Dateofbirth" class="form-control" id="Dateofbirth" placeholder="Dateofbirth">
+                <input type="text" name="Dob" class="form-control" id="Dob" placeholder="Dob">
             </div>
 
             <div class="form-group row">
               <label for="dob" class="col-sm-2 col-form-label">Telephone Number</label>           
-                <input type=" inputtelephone" name="TelephoneNumber" class="form-control" id="TelephoneNumber" placeholder="TelephoneNumber"
+                <input type=" text" name="TelephoneNb" class="form-control" id="TelephoneNb" placeholder="TelephoneNb"
             ></div>
 
             <div class="form-group row">
               <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>        
-                <input type="text" name="email" class="form-control" id="email" placeholder="email">
+                <input type="text" name="Email" class="form-control" id="Email" placeholder="Email">
             </div> 
             
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>           
-                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                <input type="Password" name="Password" class="form-control" id="Password" placeholder="Password">
             </div>
 
             <div class="form-group row">
               
-              <form> 
+          
                   <label for="inputFavs" class="col-sm-2 col-form-label">Votre thème favori</label>           
                     <select  name="Favs" class="form-control" id="Favs" 
                    placeholder="Favs">
@@ -197,19 +219,34 @@ if(!empty($_POST)){
                         <option>Politique</option>
                         <option>Economie</option>
                     </select>
-              </form>
+  
             </div>
 
             <div class="form-group row">
                 <button type="submit" class="btn btn-info">Inscription</button>            
             </div>
-          </form>
-        </div>
-   
+
+            </form>        
+          <a href="http://localhost/Tests/git/projetMag/log/connection.php">Deja Membre?</a>
+       
+<?php
+
+// Si l'array $errors existe, on extrait toutes les erreurs qu'il contient avec un foreach et on les affiches
+if(isset($errors)){
+    foreach($errors as $error){ //as uniqement avec foreach
+        echo '<p style="color:red;">'.$error.'</p>';
+    }
+}
+// Si $success existe, on l'affiche
+if(isset($success)){
+    echo '<p style="color:green;">'.$success.'</p>';
+}
+
+?>
     </body>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="script.js"></script> 
+      
 </html>
