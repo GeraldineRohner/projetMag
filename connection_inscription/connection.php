@@ -60,7 +60,7 @@ if(!empty($_POST)){
 
         // Récupération de l'empreinte du mot de passe en BDD
 
-    $accounts = $bdd->prepare("SELECT password FROM users_info WHERE email= ?");
+    $accounts = $bdd->prepare("SELECT * FROM users_info WHERE email= ?");
 
     $accounts->execute(array($_POST['email'])); 
 
@@ -68,7 +68,7 @@ if(!empty($_POST)){
     $accountsInfo = $accounts->fetch(PDO::FETCH_ASSOC);
 
 
-    $accounts->closeCursor();
+    
 
 
 
@@ -80,9 +80,14 @@ if(!empty($_POST)){
 
       // Vérification de la conformité du mot de passe
 
-      if (password_verify($_POST['password'], $accountsInfo['password'])){
+      if (password_verify($_POST['password'], $accountsInfo['Password'])){
 
         $success= "Vous êtes connecté, pour accéder à la liste d'articles cliquez <a href='../articles/listearticle.php'>ici</a>";
+
+        $_SESSION['Email']=$accountsInfo['Email'];
+        $_SESSION['UserName']=$accountsInfo['UserName'];
+        $_SESSION['FirstName']=$accountsInfo['FirstName'];
+        
 
       } else {
 
@@ -97,7 +102,7 @@ if(!empty($_POST)){
       $errors[] = "Compte inexistant";
 
     } 
-
+    $accounts->closeCursor();
   }       
 
 }
@@ -208,6 +213,8 @@ if(!empty($_POST)){
 
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
+
+            <input type="hidden" name="token" id="token" value="<?php//Le champ caché a pour valeur le jetonecho $token;?>"/>
 
             <button class="btn btn-lg btn-primary btn-block" name="validation" type="submit">Sign in</button>
 
