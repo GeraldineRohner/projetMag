@@ -40,12 +40,15 @@ if ($_SESSION['status'] == 1)
         if(!empty($articleList) && $_SESSION['status'] == 1)
         {
 
+            $token = uniqid(rand(), true);
+//Et on le stocke
+            $_SESSION['token'] = $token;
 
             echo '<table class="movietable">';
             echo '<tr><th>Titre</th><th>Auteur</th><th>Date de publication</th><th>Edit</th></tr>';
 
             foreach($articleList as $article){
-                echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td><a href="edit.article.php?id='.htmlspecialchars($article['id']).'">Cliquez ici</a></td><td><a class="delete" href="supression.article.php?id='.htmlspecialchars($article['id']).'">Supprimer</a></td></tr>';
+                echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td><a href="edit.article.php?id='.htmlspecialchars($article['id']).'">Cliquez ici</a></td><td><a class="delete" href="supression.article.php?id='.htmlspecialchars($article['id']).'&token='.$token.'">Supprimer</a></td></tr>';
             }
         echo '</table>'; // Petit détail important : L'id était ici indispensable car nous en avons besoin pour afficher les détails de chaque film dans une autre page (en le passant dans la superglobale $_GET. Ouf, on a bien fait de le prendre dans la requête !)
         
