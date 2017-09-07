@@ -1,6 +1,6 @@
 <?php 
-// Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable et on doit arrêter la page de charger si il n'est pas trouvé
-require('bdd.inc.php');
+// Inclusion du fichier de connexion à la BDD avec un require
+require('include/bdd.inc.php');
 
 // On récupère le titre et le content de tous les articles dans la base de données via la méthode query.
 $getAllArticles = $bdd->query("SELECT title, content FROM articles ORDER BY DoP");
@@ -35,11 +35,11 @@ $getAllArticles->closeCursor();
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="inscription.php">Inscription</a></li>
-                        <li><a href="connection.php">Connexion</a></li>
+                        <li><a href="connection_inscription/inscription.php">Inscription</a></li>
+                        <li><a href="connection_inscription/connection.php">Connexion</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="admin.php">Admin</a></li>
+                        <li><a href="admin/admin.php">Admin</a></li>
                     </ul>
                 </div>
             </div>

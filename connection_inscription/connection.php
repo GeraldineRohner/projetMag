@@ -1,45 +1,104 @@
-<?php 
-// Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable et on doit arrêter la page de charger si il n'est pas trouvé
-require('bdd.inc.php');
+<?php
+session_start();
 
-
-
+// Verifications
 if(!empty($_POST)){
 
-  $realEmail = 'jean@exemple.com';
-  $realPassword = 'azerty';
+    // Vérification de l'existance et du remplissage du champ email
 
-  // Bloc de vérifications
+  if(isset($_POST['email']) AND !empty($_POST['email'])){
 
-  if(isset($_POST['email']) && !empty($_POST['email'])){
+        // Vérification de la conformité de l'email avec FILTER_VALIDATE
+
     if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-      $errors['invalideEmail'] = true;
+
+            // Si non conforme => message d'erreur
+
+      $errors[] = "Email invalide";
+
     }
 
   } else {
 
-    $errors['emptyEmail'] = true;
+        // Si le champ n'existe pas ou est vide => message d'erreur
+
+    $errors[] = "Veuillez remplir votre email !";
 
   }
 
-  if(isset($_POST['password']) && !empty($_POST['password'])){
-    if(!preg_match('#^.{3,25}$#', $_POST['password'])){
-      $errors[] = $errors['invalidePassword'] = true;
+    // Vérification de l'existance et du remplissage du champ mot de passe
+
+  if(isset($_POST['password']) AND !empty($_POST['password'])){
+
+        // Vérification de la conformité du mot de passe
+
+    if(!preg_match('#^(\w[\_\!\( áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]?){3,50}$#', $_POST['password'])){
+
+            // Si non => message d'erreur
+
+      $errors[] = "Mot de passe invalide";
+
     }
 
-  }else{
+  } else {
 
-    $errors['emptyPassword'] = true;
+        // Si le champ n'existe pas ou est vide, on créer une erreur dans l'array $errors
+
+    $errors[] = "Veuillez remplir le mot de passe !";
 
   }
 
-  if($_POST['email']!=$realEmail){
-    $errors['badEmail'] = true;
-  }
 
-  if($_POST['password']!=$realPassword){
-    $errors['badPassword'] = true;
-  }
+
+    // Si aucune erreur détectée 
+
+  if(!isset($errors)){
+
+// Inclusion du fichier de connexion à la BDD avec un require
+    require('../include/bdd.inc.php');
+
+
+        // Récupération de l'empreinte du mot de passe en BDD
+
+    $accounts = $bdd->prepare("SELECT password FROM users_info WHERE email= ?");
+
+    $accounts->execute(array($_POST['email'])); 
+
+
+    $accountsInfo = $accounts->fetch(PDO::FETCH_ASSOC);
+
+
+    $accounts->closeCursor();
+
+
+
+    // vérification que le compte existe bien en BDD
+
+    if(!empty($accountsInfo)){
+
+
+
+      // Vérification de la conformité du mot de passe
+
+      if (password_verify($_POST['password'], $accountsInfo['password'])){
+
+        $success= "Vous êtes connecté, pour accéder à la liste d'articles cliquez <a href='../articles/listearticle.php'>ici</a>";
+
+      } else {
+
+        $errors[] = "Le mot de passe est incorrect !";
+
+      }
+
+    // si le compte n'existe pas => message d'erreur
+
+    } else { 
+
+      $errors[] = "Compte inexistant";
+
+    } 
+
+  }       
 
 }
 
@@ -106,31 +165,65 @@ if(!empty($_POST)){
       <body>
 
         <div class="container">
+          <nav class="navbar navbar-default">
+            <div class="container-fluid">
 
-          <form class="form-signin">
+              <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                  <li><a href="inscription.php">Inscription</a></li>
+                  <li><a href="connection.php">Connexion</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="admin.php">Admin</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <div class="container">
+
+         <?php
+
+          // Si l'array $errors existe, on extrait toutes les erreurs qu'il contient avec un foreach et on les affiches
+         if(isset($errors)){
+          foreach($errors as $error){
+            echo '<p style="color:red;">'.$error.'</p>';
+          }
+        }
+          // Si $success existe, on l'affiche
+        if(isset($success)){
+          echo '<div style="font-size:50px;" class="alert alert-success" role="alert">'.$success.'</div>';
+        }else{
+
+
+          ?>
+
+          <form class="form-signin" method="POST" action="connection.php">
 
             <h2 class="form-signin-heading">Please sign in</h2>
 
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Email address">
 
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
 
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value="remember-me"> Remember me
-              </label>
-            </div>
+            <button class="btn btn-lg btn-primary btn-block" name="validation" type="submit">Sign in</button>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
           </form>
 
-        </div>
+          <?php
+        }
+        ?>
 
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="scripts/script.js"></script>
-      </body>
-      </html>
+
+      </div>
+
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <script src="scripts/script.js"></script>
+    </body>
+    </html>
