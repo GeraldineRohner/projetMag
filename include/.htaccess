@@ -1,0 +1,2 @@
+# Interdiction d'accès au site à tout le monde :
+deny from all 

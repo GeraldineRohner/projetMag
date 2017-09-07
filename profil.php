@@ -80,8 +80,7 @@
 		
 		<br>
 		
-			<a href="editProfil.php?id='.htmlspecialchars($userInfo['id']).'"><button type="submit" class="btn btn-warning"> Modifier mon profil </button></a>
-
+			<a href='editProfil.php?id='.htmlspecialchars($userInfo["id"]).''><button type="submit" class="btn btn-warning"> Modifier mon profil </button></a>
 	</div>
 
 
