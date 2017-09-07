@@ -1,14 +1,8 @@
 <?php 
 
 $themes = array
-(
-    '0' => 'Economie',
-    '1' => 'Philosophie',
-    '2' => 'Histoire',
-    '3' => 'People',
-    '4' => 'Géographie',
-    '5' => 'Politique'
-    );
+('Economie','Philosophie','Histoire','People','Géographie','Politique');
+
 
 if (isset($_GET['id']) AND preg_match('#^[1-9][0-9]{0,7}$#',$_GET['id'])) // ||||||||||||||| PENSER À  VERIFIER QUE ID > 0 ET INTEGER. |||||||||||||
 {
