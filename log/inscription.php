@@ -1,4 +1,5 @@
 <?php  
+require('../include/bdd.inc.php');
 
 if(!empty($_POST)){
     

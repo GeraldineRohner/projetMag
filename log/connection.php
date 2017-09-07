@@ -1,5 +1,13 @@
+<<<<<<< HEAD:connection_inscription/connection.php
 <?php
 session_start();
+=======
+<?php 
+// Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable et on doit arrêter la page de charger si il n'est pas trouvé
+require('../include/bdd.inc.php');
+
+
+>>>>>>> origin/master:log/connection.php
 
 // Verifications
 if(!empty($_POST)){

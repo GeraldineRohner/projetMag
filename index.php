@@ -1,5 +1,9 @@
 <?php 
+<<<<<<< HEAD
 // Inclusion du fichier de connexion à la BDD avec un require
+=======
+// Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable et on doit arrêter la page de charger si il n'est pas trouvé
+>>>>>>> origin/master
 require('include/bdd.inc.php');
 
 // On récupère le titre et le content de tous les articles dans la base de données via la méthode query.
@@ -17,7 +21,7 @@ $getAllArticles->closeCursor();
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title> Home - Webzine </title>
 	<link rel="stylesheet" href="style/style.css">
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,8 +39,13 @@ $getAllArticles->closeCursor();
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+<<<<<<< HEAD
                         <li><a href="connection_inscription/inscription.php">Inscription</a></li>
                         <li><a href="connection_inscription/connection.php">Connexion</a></li>
+=======
+                        <li><a href="log/inscription.php">Inscription</a></li>
+                        <li><a href="log/connection.php">Connexion</a></li>
+>>>>>>> origin/master
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="admin/admin.php">Admin</a></li>
