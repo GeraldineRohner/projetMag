@@ -2,6 +2,7 @@
 
 session_start(); 
 
+require('../include/bdd.inc.php');
 
 if(isset($_SESSION['FirstName'])){
 

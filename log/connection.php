@@ -1,6 +1,6 @@
 <?php 
 // Inclusion du fichier de connexion à la BDD avec un require car c'est un morceau de code indispensable et on doit arrêter la page de charger si il n'est pas trouvé
-require('bdd.inc.php');
+require('../include/bdd.inc.php');
 
 
 
