@@ -45,7 +45,7 @@ if ($_SESSION['status'] == 1)
             echo '<tr><th>Titre</th><th>Auteur</th><th>Date de publication</th><th>Edit</th></tr>';
 
             foreach($articleList as $article){
-                echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td><a href="edit.article.php?id='.htmlspecialchars($article['id']).'">Cliquez ici</a></td><td><a href="supression.article.php?id='.htmlspecialchars($article['id']).'">Supprimer</a></td></tr>';
+                echo '<tr><td>'.htmlspecialchars($article['title']).'</td><td>'.htmlspecialchars($article['author']).'</td><td>'.htmlspecialchars($article['DoP']).'</td><td><a href="edit.article.php?id='.htmlspecialchars($article['id']).'">Cliquez ici</a></td><td><a class="delete" href="supression.article.php?id='.htmlspecialchars($article['id']).'">Supprimer</a></td></tr>';
             }
         echo '</table>'; // Petit détail important : L'id était ici indispensable car nous en avons besoin pour afficher les détails de chaque film dans une autre page (en le passant dans la superglobale $_GET. Ouf, on a bien fait de le prendre dans la requête !)
         
@@ -61,6 +61,6 @@ if ($_SESSION['status'] == 1)
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="scripts/script.js"></script>
+    <script src="../script/script.js"></script>
 </body>
 </html>

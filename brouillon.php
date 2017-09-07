@@ -29,3 +29,27 @@ if $_SESSION['status'] == 1
 else echo '<h1 style="color:red; text-align:center;">'.$kickOut.'</h1>'; // ...Sinon on affiche le message d'erreur
 
 ?>
+
+
+<?php 
+
+$token = uniqid(rand(), true);
+//Et on le stocke
+	$_SESSION['token'] = $token;
+//On enregistre aussi le timestamp correspondant au moment de la création du token
+	$_SESSION['token_time'] = time();
+?>
+
+
+<input type="hidden" name="token" id="token" value="<?php
+
+//Le champ caché a pour valeur le jeton
+
+echo $token;
+
+    ?>"/>
+
+
+
+
+   
